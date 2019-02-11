@@ -38,19 +38,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Marker marc;
     private Marker marcador;
     double lat = 0.0;
     double lng = 0.0;
     private static final String BASE_URL = "https://api.openchargemap.io/v2/" ;
+
+
     public void chamarRetrofit() {
+
+
 
         Map<String, String> data = new HashMap<>();
         data.put("output", "json");
-        data.put("maxresults", "10");
+        data.put("maxresults", "100");
         data.put("compact", "true");
         data.put("verbose", "false");
-        data.put("latitude", "41.3627437");
-        data.put("longitude", "-8.1955167");
+        data.put("latitude", Double.toString(lat));
+        data.put("longitude", Double.toString(lng));
 
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
@@ -63,7 +68,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ArrayList<Postos> postos = new ArrayList<>();
                 postos = (ArrayList<Postos>) response.body();
                 Log.d("TAG", "onReponse: Received information" + response.body().toString());
-                Toast.makeText(MapsActivity.this, "recebida", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Localização Recebida", Toast.LENGTH_SHORT).show();
+                addMarkerPostos(postos);
+
 
             }
 
@@ -85,7 +92,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        chamarRetrofit();
     }
 
     @Override
@@ -144,5 +150,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         actualizarPosição(location);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,15000,0,locationListener);
+        chamarRetrofit();
+
+    }
+    private void addMarkerPostos(List<Postos> postos){
+        for(int i=0; i<postos.size();i++) {
+            LatLng latLng = new LatLng(postos.get(i).adressInfo.getLatitude(), postos.get(i).adressInfo.getLongitude());
+
+            marc = mMap.addMarker(new MarkerOptions()
+                    .position(latLng));
+        }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                return true;
+            }
+        });
+
     }
 }

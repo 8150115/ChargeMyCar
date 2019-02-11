@@ -9,7 +9,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.QueryMap;
 
 public interface OpenchargemapApi {
-    public static final String url = "https://api.openchargemap.io/v2/poi/?output=json&maxresults=10&compact=true&verbose=false";
+    public static final String url = "https://api.openchargemap.io/v2/";
 
     @Headers("Content-Type: application/json")
     @GET("poi/")
