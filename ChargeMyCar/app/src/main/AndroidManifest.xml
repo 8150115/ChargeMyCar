@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.Camera"
+        android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:usesCleartextTraffic="true"
@@ -48,6 +52,22 @@
         <activity
             android:name=".SignUpActivity"
             android:label="Sign Up"></activity>
+
+        <activity
+            android:name=".CameraActivity"
+            android:label="Camera"></activity>
+
+        <activity
+            android:name=".AdapterActivity"
+            android:label="Adapter" />
+        <activity
+            android:name=".API.Postos_inf"
+            android:label="Postos_inf" />
+        <activity
+            android:name=".detailed_inf"
+            android:label="detailed_inf" />
+
+
 
     </application>
 
